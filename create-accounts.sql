@@ -1,24 +1,24 @@
-create table Permission (
+create table permissions (
 	id uuid default gen_random_uuid() PRIMARY KEY,
 	code smallint,
 	description text
 );
 
-insert into Permission (id, code, description) values 
+insert into permissions (id, code, description) values 
 ('1562f13c-2532-426c-b866-0ce840043144', 100, 'Basic user. Can create: playlists. Can edit: playlists. Can delete: playlists.'),
 ('0db2bb74-e546-4824-99ad-474e5cf7eaa2', 110, 'Music creator. Can create: songs, albums. Can edit: playlists, songs, albums. Can delete: playlists, sonngs, albums.');
 
 
 -- ACCOUNT TABLE
 
-create table Account (
+create table accounts (
 	id uuid default gen_random_uuid() PRIMARY KEY,
 	email varchar(50),
 	password varchar(100),
 	country varchar(20)
 );
 
-insert into Account (id, email, password, country) 
+insert into accounts (id, email, password, country) 
 values 
 ('b0c0cd93-b669-40f7-be47-4cf789ba457a', 'admin@musicify.com', '$2a$04$hWS9uvMfS.Q1ALoGkhpe0eYdTJlbHH4h7.7kPy/qMLQExccNqK5Be', 'Russia'),
 ('37fd1fee-256c-43eb-9b67-f92ac6b57c82', 'wmarcome1@free.fr', '$2a$04$wZF2XcsHmlaUEiyqqMWCguqNC1TzkPbP/T5i7VtERlrlY4Xt5J9hq', 'United States'),
@@ -43,14 +43,14 @@ values
 
 -- PROFILE TABLE
 
-create table Profile (
+create table profiles (
 	id uuid default gen_random_uuid() PRIMARY KEY,
-	accountId uuid not null REFERENCES Account (id),
+	account_id uuid not null REFERENCES accounts (id),
 	nickname varchar(25) not null,
-	isPublic boolean default TRUE
+	is_public boolean default TRUE
 );
 
-insert into Profile (id, accountId, nickname, isPublic) 
+insert into profiles (id, account_id, nickname, is_public) 
 values 
 ('ff0da384-02d4-4b7a-ba41-943361884b5c', 'b0c0cd93-b669-40f7-be47-4cf789ba457a', 'gigaadmin', false),
 ('7f79eeff-f894-4ea5-ac90-81942688b4ef', '37fd1fee-256c-43eb-9b67-f92ac6b57c82', 'exuding', true),
@@ -75,15 +75,15 @@ values
 
 -- AccountPermission TABLE
 
-create table AccounntPermission (
+create table account_permissions (
 	id uuid default gen_random_uuid() PRIMARY KEY,
-	accountId uuid not null REFERENCES Account (id),
-	permissionId uuid not null REFERENCES Permission (id),
-	assignmentData DATE,
-	assignmentBy uuid REFERENCES Account (id)
+	account_id uuid not null REFERENCES accounts (id),
+	permission_id uuid not null REFERENCES permissions (id),
+	assignment_data DATE,
+	assignment_by uuid REFERENCES accounts (id)
 );
 
-insert into AccounntPermission (id, accountId, permissionId, assignmentData, assignmentBy) 
+insert into account_permissions (id, account_id, permission_id, assignment_data, assignment_by) 
 values
 ('98aa4e70-6ba2-4967-9769-a2322916893c', 'b0c0cd93-b669-40f7-be47-4cf789ba457a', '1562f13c-2532-426c-b866-0ce840043144', '02/10/2024', null),
 ('5229ecdc-c270-4066-be68-7cb7af109941', 'b0c0cd93-b669-40f7-be47-4cf789ba457a', '0db2bb74-e546-4824-99ad-474e5cf7eaa2', '02/10/2024', null),

@@ -121,3 +121,58 @@ LEFT JOIN Permission ON AccountPermission.permissionId = Permission.id;
  nmakinsonj@wiley.com        |        100 | admin@musicify.com
  nmakinsonj@wiley.com        |        110 | admin@musicify.com
 ```
+
+## Play with songs
+
+```sql
+SELECT artists.title AS Artist, songs.title AS Song, albums.title AS Album, songs.duration_ms AS Duration
+FROM song_records
+JOIN artists ON artists.id = song_records.artist_id 
+-- AND artist.title = 'AC/DC'
+JOIN songs ON songs.id = song_records.song_id
+JOIN albums ON albums.id = song_records.album_id;
+```
+
+    artist    |               song               |                 album                 | duration
+--------------+----------------------------------+---------------------------------------+----------
+ Taylor Swift | Love Story                       | Fearless                              |   235000
+ Taylor Swift | Shake It Off                     | Fearless                              |   219000
+ Taylor Swift | Blank Space                      | 1989                                  |   228000
+ Beyonce      | Halo                             | Lemonade                              |   237000
+ Beyonce      | Crazy in Love                    | Beyoncé                               |   235000
+ Beyonce      | Single Ladies (Put a Ring on It) | Beyoncé                               |   202000
+ Ed Sheeran   | Shape of You                     | Divide                                |   233000
+ Ed Sheeran   | Thinking Out Loud                | Divide                                |   281000
+ Ed Sheeran   | Castle on the Hill               | X                                     |   261000
+ Led Zeppelin | Stairway to Heaven               | Led Zeppelin IV                       |   480000
+ Led Zeppelin | Kashmir                          | Physical Graffiti                     |   420000
+ Led Zeppelin | Whole Lotta Love                 | Physical Graffiti                     |   340000
+ Queen        | Bohemian Rhapsody                | A Night at the Opera                  |   354000
+ Queen        | We Will Rock You                 | The Game                              |   123000
+ Queen        | Another One Bites the Dust       | The Game                              |   224000
+ The Beatles  | Hey Jude                         | Abbey Road                            |   432000
+ The Beatles  | Let It Be                        | Abbey Road                            |   237000
+ The Beatles  | Yesterday                        | Sgt. Pepper's Lonely Hearts Club Band |   150000
+ Pink Floyd   | Wish You Were Here               | Wish You Were Here                    |   334000
+ Pink Floyd   | Comfortably Numb                 | The Dark Side of the Moon             |   391000
+ Pink Floyd   | Another Brick in the Wall        | The Dark Side of the Moon             |   344000
+ AC/DC        | Back in Black                    | Back in Black                         |   240000
+ AC/DC        | Highway to Hell                  | Highway to Hell                       |   210000
+ AC/DC        | Thunderstruck                    | Highway to Hell                       |   300000
+ Nirvana      | Smells Like Teen Spirit          | Nevermind                             |   300000
+ Nirvana      | Come as You Are                  | Nevermind                             |   240000
+ Nirvana      | Heart-Shaped Box                 | In Utero                              |   270000
+
+
+```sql
+select distinct al.title
+from albums al
+join song_records sr on sr.album_id = al.id
+join artists ar on ar.id = sr.artist_id 
+where ar.title = 'Taylor Swift';
+```
+
+  title
+----------
+ 1989
+ Fearless
